@@ -27,7 +27,7 @@ public class EmailSender {
 	JavaMailSender mailSender;
 	
 	private String toAddress;
-	private final String fromAddress = "rhnprocurement@gmail.com";
+	private final String fromAddress = "rhnaconference@gmail.com";
 	private final String senderName = "PMS Team";
 	private final String subject = "Thank your for registration!";
 	private String content = "<h4>Dear [[name]], </h4><br>"
@@ -70,7 +70,7 @@ public class EmailSender {
 		 helper.setSubject(subject);
 			
 		 content = content.replace("[[name]]", getUsername());
-		 String verifyURL = "https://pms-frontend-rust.vercel.app";
+		 String verifyURL = "https://net-garage.vercel.app/login";
 		 content = content.replace("[[URL]]", verifyURL);
 		 helper.setText(content, true);
 			

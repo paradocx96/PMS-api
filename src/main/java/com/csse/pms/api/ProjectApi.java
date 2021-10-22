@@ -31,7 +31,7 @@ public class ProjectApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #createProject(Project)
      */
-    public ResponseEntity<?> createProject(Project project) {
+    public Project createProject(Project project) {
         return projectDataAdapter.createProject(project);
     }
 
@@ -89,7 +89,7 @@ public class ProjectApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #deleteProjectById(String)
      */
-    public ResponseEntity<?> deleteProjectById(String id) {
+    public String deleteProjectById(String id) {
         return projectDataAdapter.deleteProjectById(id);
     }
 
@@ -101,7 +101,7 @@ public class ProjectApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #updateProject(Project)
      */
-    public ResponseEntity<?> updateProject(Project project) {
+    public String updateProject(Project project) {
         return projectDataAdapter.updateProject(project);
     }
 }

@@ -47,12 +47,12 @@ public class ProjectAdapterImpl implements ProjectDataAdapter {
      * Then project model object save in project collection in MongoDB Cluster database.
      *
      * @param project - project object from ProjectApi class.
-     * @return ResponseEntity<?> - Customized message will be return.
+     * @return Project - Customized message will be return.
      * @throws Exception - Common Exception to be handled.
      * @see #createProject(Project)
      */
     @Override
-    public ResponseEntity<?> createProject(Project project) {
+    public Project createProject(Project project) {
         ProjectModel projectModel = new ProjectModel();
 
         try {
@@ -66,10 +66,12 @@ public class ProjectAdapterImpl implements ProjectDataAdapter {
             projectModel = repository.save(projectModel);
             LOGGER.log(Level.INFO, projectModel.toString());
 
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.PROJECT_CREATE_SUCCESSFULLY));
+            project.setId(projectModel.getId());
+
+            return project;
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.PROJECT_CREATE_ERROR));
+            return project;
         }
     }
 
@@ -231,20 +233,20 @@ public class ProjectAdapterImpl implements ProjectDataAdapter {
      * @see #deleteProjectById(String)
      */
     @Override
-    public ResponseEntity<?> deleteProjectById(String id) {
+    public String deleteProjectById(String id) {
         ProjectModel projectModel = null;
 
         try {
             projectModel = repository.findById(id).get();
             if (projectModel != null) {
                 repository.deleteById(id);
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.PROJECT_DELETE_SUCCESSFULLY));
+                return CommonConstants.PROJECT_DELETE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.PROJECT_DOES_NOT_EXIST));
+                return CommonConstants.PROJECT_DOES_NOT_EXIST;
             }
         } catch (NoSuchElementException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.PROJECT_DELETE_ERROR));
+            return CommonConstants.PROJECT_DELETE_ERROR;
         }
     }
 
@@ -259,7 +261,7 @@ public class ProjectAdapterImpl implements ProjectDataAdapter {
      * @see #updateProject(Project)
      */
     @Override
-    public ResponseEntity<?> updateProject(Project project) {
+    public String updateProject(Project project) {
         try {
             ProjectModel projectModel = mongoTemplate.findAndModify(
                     Query.query(Criteria.where(CommonConstants.ID).is(project.getId())),
@@ -274,13 +276,13 @@ public class ProjectAdapterImpl implements ProjectDataAdapter {
             );
 
             if (projectModel != null) {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.PROJECT_UPDATE_SUCCESSFULLY));
+                return CommonConstants.PROJECT_UPDATE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.PROJECT_DOES_NOT_EXIST));
+                return CommonConstants.PROJECT_DOES_NOT_EXIST;
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.PROJECT_UPDATE_ERROR));
+            return CommonConstants.PROJECT_UPDATE_ERROR;
         }
     }
 }

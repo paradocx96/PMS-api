@@ -31,7 +31,7 @@ public class ProjectController {
 
     @PostMapping(CommonConstants.POST_MAPPING_SAVE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createProject(@RequestBody ProjectDto projectDto) {
+    public Project createProject(@RequestBody ProjectDto projectDto) {
         Project project = new Project();
 
         project.setProjectName(projectDto.getProjectName());
@@ -70,13 +70,13 @@ public class ProjectController {
 
     @DeleteMapping(CommonConstants.DELETE_MAPPING_DELETE_BY_ID)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> deleteProjectById(@PathVariable String id) {
+    public String deleteProjectById(@PathVariable String id) {
         return projectApi.deleteProjectById(id);
     }
 
     @PutMapping(CommonConstants.PUT_MAPPING_UPDATE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> updateProject(@RequestBody ProjectDto projectDto) {
+    public String updateProject(@RequestBody ProjectDto projectDto) {
         Project project = new Project();
 
         project.setId(projectDto.getId());

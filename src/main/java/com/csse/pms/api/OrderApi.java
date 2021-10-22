@@ -3,7 +3,6 @@ package com.csse.pms.api;
 import com.csse.pms.domain.Order;
 import com.csse.pms.domain.OrderDataAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class OrderApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #purchaseOrder(Order)
      */
-    public ResponseEntity<?> purchaseOrder(Order order) {
+    public Order purchaseOrder(Order order) {
         return orderDataAdapter.purchaseOrder(order);
     }
 
@@ -101,7 +100,7 @@ public class OrderApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #deleteOrderById(String)
      */
-    public ResponseEntity<?> deleteOrderById(String id) {
+    public String deleteOrderById(String id) {
         return orderDataAdapter.deleteOrderById(id);
     }
 
@@ -113,7 +112,7 @@ public class OrderApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #archiveOrder(Order)
      */
-    public ResponseEntity<?> archiveOrder(Order order) {
+    public String archiveOrder(Order order) {
         return orderDataAdapter.archiveOrder(order);
     }
 
@@ -125,7 +124,7 @@ public class OrderApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #updateOrder(Order)
      */
-    public ResponseEntity<?> updateOrder(Order order) {
+    public String updateOrder(Order order) {
         return orderDataAdapter.updateOrder(order);
     }
 
@@ -137,7 +136,7 @@ public class OrderApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #updateOrderStatus(Order)
      */
-    public ResponseEntity<?> updateOrderStatus(Order order) {
+    public String updateOrderStatus(Order order) {
         return orderDataAdapter.updateOrderStatus(order);
     }
 }

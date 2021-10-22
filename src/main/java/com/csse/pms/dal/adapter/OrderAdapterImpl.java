@@ -47,12 +47,12 @@ public class OrderAdapterImpl implements OrderDataAdapter {
      * Then order model object save in order collection in MongoDB Cluster database.
      *
      * @param order - Order object from OrderApi class.
-     * @return ResponseEntity<?> - Customized message will be return.
+     * @return Order - Customized message will be return.
      * @throws Exception - Common Exception to be handled.
      * @see #purchaseOrder(Order)
      */
     @Override
-    public ResponseEntity<?> purchaseOrder(Order order) {
+    public Order purchaseOrder(Order order) {
 
         OrderModel orderModel = new OrderModel();
 
@@ -72,10 +72,12 @@ public class OrderAdapterImpl implements OrderDataAdapter {
             orderModel = repository.save(orderModel);
             LOGGER.log(Level.INFO, orderModel.toString());
 
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_PURCHASE_SUCCESSFULLY));
+            order.setId(orderModel.getId());
+
+            return order;
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_PURCHASE_ERROR));
+            return order;
         }
     }
 
@@ -299,20 +301,20 @@ public class OrderAdapterImpl implements OrderDataAdapter {
      * @see #deleteOrderById(String)
      */
     @Override
-    public ResponseEntity<?> deleteOrderById(String id) {
+    public String deleteOrderById(String id) {
         OrderModel orderModel = null;
 
         try {
             orderModel = repository.findById(id).get();
             if (orderModel != null) {
                 repository.deleteById(id);
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DELETE_SUCCESSFULLY));
+                return CommonConstants.ORDER_DELETE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DOES_NOT_EXIST));
+                return CommonConstants.ORDER_DOES_NOT_EXIST;
             }
         } catch (NoSuchElementException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DELETE_ERROR));
+            return CommonConstants.ORDER_DELETE_ERROR;
         }
     }
 
@@ -327,7 +329,7 @@ public class OrderAdapterImpl implements OrderDataAdapter {
      * @see #archiveOrder(Order)
      */
     @Override
-    public ResponseEntity<?> archiveOrder(Order order) {
+    public String archiveOrder(Order order) {
         try {
             OrderModel orderModel = mongoTemplate.findAndModify(
                     Query.query(Criteria.where(CommonConstants.ID).is(order.getId())),
@@ -336,13 +338,13 @@ public class OrderAdapterImpl implements OrderDataAdapter {
             );
 
             if (orderModel != null) {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_ARCHIVE_SUCCESSFULLY));
+                return CommonConstants.ORDER_ARCHIVE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DOES_NOT_EXIST));
+                return CommonConstants.ORDER_DOES_NOT_EXIST;
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_ARCHIVE_ERROR));
+            return CommonConstants.ORDER_ARCHIVE_ERROR;
         }
     }
 
@@ -357,7 +359,7 @@ public class OrderAdapterImpl implements OrderDataAdapter {
      * @see #updateOrder(Order)
      */
     @Override
-    public ResponseEntity<?> updateOrder(Order order) {
+    public String updateOrder(Order order) {
         try {
             OrderModel orderModel = mongoTemplate.findAndModify(
                     Query.query(Criteria.where(CommonConstants.ID).is(order.getId())),
@@ -374,13 +376,13 @@ public class OrderAdapterImpl implements OrderDataAdapter {
             );
 
             if (orderModel != null) {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_UPDATE_SUCCESSFULLY));
+                return CommonConstants.ORDER_UPDATE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DOES_NOT_EXIST));
+                return CommonConstants.ORDER_DOES_NOT_EXIST;
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_UPDATE_ERROR));
+            return CommonConstants.ORDER_UPDATE_ERROR;
         }
     }
 
@@ -395,7 +397,7 @@ public class OrderAdapterImpl implements OrderDataAdapter {
      * @see #updateOrderStatus(Order)
      */
     @Override
-    public ResponseEntity<?> updateOrderStatus(Order order) {
+    public String updateOrderStatus(Order order) {
         try {
             OrderModel orderModel = mongoTemplate.findAndModify(
                     Query.query(Criteria.where(CommonConstants.ID).is(order.getId())),
@@ -404,13 +406,13 @@ public class OrderAdapterImpl implements OrderDataAdapter {
             );
 
             if (orderModel != null) {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_STATUS_UPDATE_SUCCESSFULLY));
+                return CommonConstants.ORDER_STATUS_UPDATE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DOES_NOT_EXIST));
+                return CommonConstants.ORDER_DOES_NOT_EXIST;
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_STATUS_UPDATE_ERROR));
+            return CommonConstants.ORDER_STATUS_UPDATE_ERROR;
         }
     }
 }

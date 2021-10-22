@@ -6,7 +6,6 @@ import com.csse.pms.dto.DeliveryLogDto;
 import com.csse.pms.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class DeliveryLogController {
 
     @PostMapping(CommonConstants.POST_MAPPING_SAVE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> createDeliveryLog(@RequestBody DeliveryLogDto deliveryLogDto) {
+    public DeliveryLog createDeliveryLog(@RequestBody DeliveryLogDto deliveryLogDto) {
         DeliveryLog deliveryLog = new DeliveryLog();
 
         deliveryLog.setReferenceNo(deliveryLogDto.getReferenceNo());
@@ -61,13 +60,13 @@ public class DeliveryLogController {
 
     @DeleteMapping(CommonConstants.DELETE_MAPPING_DELETE_BY_ID)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> deleteDeliveryLogById(@PathVariable String id) {
+    public String deleteDeliveryLogById(@PathVariable String id) {
         return deliveryLogApi.deleteDeliveryLogById(id);
     }
 
     @PutMapping(CommonConstants.PUT_MAPPING_UPDATE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> updateDeliveryLog(@RequestBody DeliveryLogDto deliveryLogDto) {
+    public String updateDeliveryLog(@RequestBody DeliveryLogDto deliveryLogDto) {
         DeliveryLog deliveryLog = new DeliveryLog();
 
         deliveryLog.setId(deliveryLogDto.getId());

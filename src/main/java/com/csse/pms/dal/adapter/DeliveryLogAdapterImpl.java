@@ -4,14 +4,12 @@ import com.csse.pms.dal.model.DeliveryLogModel;
 import com.csse.pms.dal.repository.DeliveryLogRepository;
 import com.csse.pms.domain.DeliveryLog;
 import com.csse.pms.domain.DeliveryLogDataAdapter;
-import com.csse.pms.dto.MessageResponseDto;
 import com.csse.pms.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +45,12 @@ public class DeliveryLogAdapterImpl implements DeliveryLogDataAdapter {
      * Then deliveryLog model object save in deliveryLog collection in MongoDB Cluster database.
      *
      * @param deliveryLog - deliveryLog object from DeliveryLogApi class.
-     * @return ResponseEntity<?> - Customized message will be return.
+     * @return DeliveryLog - Customized message will be return.
      * @throws Exception - Common Exception to be handled.
      * @see #createDeliveryLog(DeliveryLog)
      */
     @Override
-    public ResponseEntity<?> createDeliveryLog(DeliveryLog deliveryLog) {
+    public DeliveryLog createDeliveryLog(DeliveryLog deliveryLog) {
 
         DeliveryLogModel deliveryLogModel = new DeliveryLogModel();
 
@@ -65,10 +63,11 @@ public class DeliveryLogAdapterImpl implements DeliveryLogDataAdapter {
             deliveryLogModel = repository.save(deliveryLogModel);
             LOGGER.log(Level.INFO, deliveryLogModel.toString());
 
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.DELIVERY_STATUS_SAVE_SUCCESSFULLY));
+            deliveryLog.setId(deliveryLogModel.getId());
+            return deliveryLog;
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.DELIVERY_STATUS_SAVE_ERROR));
+            return deliveryLog;
         }
     }
 
@@ -189,20 +188,20 @@ public class DeliveryLogAdapterImpl implements DeliveryLogDataAdapter {
      * @see #deleteDeliveryLogById(String)
      */
     @Override
-    public ResponseEntity<?> deleteDeliveryLogById(String id) {
+    public String deleteDeliveryLogById(String id) {
         DeliveryLogModel deliveryLogModel = null;
 
         try {
             deliveryLogModel = repository.findById(id).get();
             if (deliveryLogModel != null) {
                 repository.deleteById(id);
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.DELIVERY_STATUS_DELETE_SUCCESSFULLY));
+                return CommonConstants.DELIVERY_STATUS_DELETE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.DELIVERY_STATUS_DOES_NOT_EXIST));
+                return CommonConstants.DELIVERY_STATUS_DOES_NOT_EXIST;
             }
         } catch (NoSuchElementException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.DELIVERY_STATUS_DELETE_ERROR));
+            return CommonConstants.DELIVERY_STATUS_DELETE_ERROR;
         }
     }
 
@@ -218,7 +217,7 @@ public class DeliveryLogAdapterImpl implements DeliveryLogDataAdapter {
      * @see #updateDeliveryLog(DeliveryLog)
      */
     @Override
-    public ResponseEntity<?> updateDeliveryLog(DeliveryLog deliveryLog) {
+    public String updateDeliveryLog(DeliveryLog deliveryLog) {
         try {
             DeliveryLogModel deliveryLogModel = mongoTemplate.findAndModify(
                     Query.query(Criteria.where(CommonConstants.ID).is(deliveryLog.getId())),
@@ -231,13 +230,13 @@ public class DeliveryLogAdapterImpl implements DeliveryLogDataAdapter {
             );
 
             if (deliveryLogModel != null) {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.DELIVERY_STATUS_UPDATE_SUCCESSFULLY));
+                return CommonConstants.DELIVERY_STATUS_UPDATE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.DELIVERY_STATUS_DOES_NOT_EXIST));
+                return CommonConstants.DELIVERY_STATUS_DOES_NOT_EXIST;
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.DELIVERY_STATUS_UPDATE_ERROR));
+            return CommonConstants.DELIVERY_STATUS_UPDATE_ERROR;
         }
     }
 }

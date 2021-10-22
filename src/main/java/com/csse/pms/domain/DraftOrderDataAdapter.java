@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface DraftOrderDataAdapter {
 
-    ResponseEntity<?> saveDraftOrder(DraftOrder draftOrder);
+    String saveDraftOrder(DraftOrder draftOrder);
 
     List<DraftOrder> getAllDraftOrders();
 
@@ -21,7 +21,7 @@ public interface DraftOrderDataAdapter {
 
     List<DraftOrder> getDraftOrderByProject(String projectId);
 
-    ResponseEntity<?> deleteDraftOrderById(String id);
+    String deleteDraftOrderById(String id);
 
-    ResponseEntity<?> updateDraftOrder(DraftOrder draftOrder);
+    String updateDraftOrder(DraftOrder draftOrder);
 }

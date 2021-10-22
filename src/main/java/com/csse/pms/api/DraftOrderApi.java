@@ -31,7 +31,7 @@ public class DraftOrderApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #saveDraftOrder(DraftOrder)
      */
-    public ResponseEntity<?> saveDraftOrder(DraftOrder draftOrder) {
+    public String saveDraftOrder(DraftOrder draftOrder) {
         return draftOrderDataAdapter.saveDraftOrder(draftOrder);
     }
 
@@ -89,7 +89,7 @@ public class DraftOrderApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #deleteDraftOrderById(String)
      */
-    public ResponseEntity<?> deleteDraftOrderById(String id) {
+    public String deleteDraftOrderById(String id) {
         return draftOrderDataAdapter.deleteDraftOrderById(id);
     }
 
@@ -101,7 +101,7 @@ public class DraftOrderApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #updateDraftOrder(DraftOrder)
      */
-    public ResponseEntity<?> updateDraftOrder(DraftOrder draftOrder) {
+    public String updateDraftOrder(DraftOrder draftOrder) {
         return draftOrderDataAdapter.updateDraftOrder(draftOrder);
     }
 }

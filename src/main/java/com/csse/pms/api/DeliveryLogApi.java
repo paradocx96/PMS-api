@@ -3,7 +3,6 @@ package com.csse.pms.api;
 import com.csse.pms.domain.DeliveryLog;
 import com.csse.pms.domain.DeliveryLogDataAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class DeliveryLogApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #createDeliveryLog(DeliveryLog)
      */
-    public ResponseEntity<?> createDeliveryLog(DeliveryLog deliveryLog) {
+    public DeliveryLog createDeliveryLog(DeliveryLog deliveryLog) {
         return deliveryLogDataAdapter.createDeliveryLog(deliveryLog);
     }
 
@@ -77,7 +76,7 @@ public class DeliveryLogApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #deleteDeliveryLogById(String)
      */
-    public ResponseEntity<?> deleteDeliveryLogById(String id) {
+    public String deleteDeliveryLogById(String id) {
         return deliveryLogDataAdapter.deleteDeliveryLogById(id);
     }
 
@@ -89,7 +88,7 @@ public class DeliveryLogApi {
      * @return ResponseEntity<?> - Customized message will be return.
      * @see #updateDeliveryLog(DeliveryLog)
      */
-    public ResponseEntity<?> updateDeliveryLog(DeliveryLog deliveryLog) {
+    public String updateDeliveryLog(DeliveryLog deliveryLog) {
         return deliveryLogDataAdapter.updateDeliveryLog(deliveryLog);
     }
 }

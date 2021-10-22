@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface OrderDataAdapter {
 
-    ResponseEntity<?> purchaseOrder(Order order);
+    Order purchaseOrder(Order order);
 
     List<Order> getAllOrders();
 
@@ -23,11 +23,11 @@ public interface OrderDataAdapter {
 
     List<Order> getOrderByProject(String projectId);
 
-    ResponseEntity<?> deleteOrderById(String id);
+    String deleteOrderById(String id);
 
-    ResponseEntity<?> archiveOrder(Order order);
+    String archiveOrder(Order order);
 
-    ResponseEntity<?> updateOrder(Order order);
+    String updateOrder(Order order);
 
-    ResponseEntity<?> updateOrderStatus(Order order);
+    String updateOrderStatus(Order order);
 }

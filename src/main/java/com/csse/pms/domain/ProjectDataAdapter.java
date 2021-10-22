@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProjectDataAdapter {
 
-    ResponseEntity<?> createProject(Project project);
+    Project createProject(Project project);
 
     List<Project> getAllProjects();
 
@@ -21,7 +21,7 @@ public interface ProjectDataAdapter {
 
     List<Project> getProjectByManagerId(String managerId);
 
-    ResponseEntity<?> deleteProjectById(String id);
+    String deleteProjectById(String id);
 
-    ResponseEntity<?> updateProject(Project project);
+    String updateProject(Project project);
 }

@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface DeliveryLogDataAdapter {
 
-    ResponseEntity<?> createDeliveryLog(DeliveryLog deliveryLog);
+    DeliveryLog createDeliveryLog(DeliveryLog deliveryLog);
 
     List<DeliveryLog> getAllDeliveryLogs();
 
@@ -19,7 +19,7 @@ public interface DeliveryLogDataAdapter {
 
     List<DeliveryLog> getDeliveryLogByReferenceNo(String referenceNo);
 
-    ResponseEntity<?> deleteDeliveryLogById(String id);
+    String deleteDeliveryLogById(String id);
 
-    ResponseEntity<?> updateDeliveryLog(DeliveryLog deliveryLog);
+    String updateDeliveryLog(DeliveryLog deliveryLog);
 }

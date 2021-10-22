@@ -47,12 +47,12 @@ public class DraftOrderAdapterImpl implements DraftOrderDataAdapter {
      * Then draft order model object save in draft order collection in MongoDB Cluster database.
      *
      * @param draftOrder - draft Order object from draftOrderApi class.
-     * @return ResponseEntity<?> - Customized message will be return.
+     * @return DraftOrder- Customized message will be return.
      * @throws Exception - Common Exception to be handled.
      * @see #saveDraftOrder(DraftOrder)
      */
     @Override
-    public ResponseEntity<?> saveDraftOrder(DraftOrder draftOrder) {
+    public String saveDraftOrder(DraftOrder draftOrder) {
 
         DraftOrderModel draftOrderModel = new DraftOrderModel();
 
@@ -71,10 +71,10 @@ public class DraftOrderAdapterImpl implements DraftOrderDataAdapter {
             draftOrderModel = repository.save(draftOrderModel);
             LOGGER.log(Level.INFO, draftOrderModel.toString());
 
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_SAVE_SUCCESSFULLY));
+            return draftOrderModel.getId();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_SAVE_ERROR));
+            return "ERROR";
         }
     }
 
@@ -251,20 +251,20 @@ public class DraftOrderAdapterImpl implements DraftOrderDataAdapter {
      * @see #deleteDraftOrderById(String)
      */
     @Override
-    public ResponseEntity<?> deleteDraftOrderById(String id) {
+    public String deleteDraftOrderById(String id) {
         DraftOrderModel draftOrderModel = null;
 
         try {
             draftOrderModel = repository.findById(id).get();
             if (draftOrderModel != null) {
                 repository.deleteById(id);
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DRAFT_DELETE_SUCCESSFULLY));
+                return CommonConstants.ORDER_DRAFT_DELETE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DOES_NOT_EXIST));
+                return CommonConstants.ORDER_DOES_NOT_EXIST;
             }
         } catch (NoSuchElementException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DRAFT_DELETE_ERROR));
+            return CommonConstants.ORDER_DRAFT_DELETE_ERROR;
         }
     }
 
@@ -279,7 +279,7 @@ public class DraftOrderAdapterImpl implements DraftOrderDataAdapter {
      * @see #updateDraftOrder(DraftOrder)
      */
     @Override
-    public ResponseEntity<?> updateDraftOrder(DraftOrder draftOrder) {
+    public String updateDraftOrder(DraftOrder draftOrder) {
         try {
             DraftOrderModel draftOrderModel = mongoTemplate.findAndModify(
                     Query.query(Criteria.where(CommonConstants.ID).is(draftOrder.getId())),
@@ -295,13 +295,13 @@ public class DraftOrderAdapterImpl implements DraftOrderDataAdapter {
                     DraftOrderModel.class
             );
             if (draftOrderModel != null) {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DRAFT_UPDATE_SUCCESSFULLY));
+                return CommonConstants.ORDER_DRAFT_UPDATE_SUCCESSFULLY;
             } else {
-                return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DOES_NOT_EXIST));
+                return CommonConstants.ORDER_DOES_NOT_EXIST;
             }
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
-            return ResponseEntity.ok(new MessageResponseDto(CommonConstants.ORDER_DRAFT_UPDATE_ERROR));
+            return CommonConstants.ORDER_DRAFT_UPDATE_ERROR;
         }
     }
 }

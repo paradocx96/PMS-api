@@ -31,7 +31,7 @@ public class DraftOrderController {
 
     @PostMapping(CommonConstants.POST_MAPPING_SAVE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> saveDraftOrder(@RequestBody DraftOrderDto draftOrderDto) {
+    public String saveDraftOrder(@RequestBody DraftOrderDto draftOrderDto) {
         DraftOrder draftOrder = new DraftOrder();
 
         draftOrder.setSupplierId(draftOrderDto.getSupplierId());
@@ -74,13 +74,13 @@ public class DraftOrderController {
 
     @DeleteMapping(CommonConstants.DELETE_MAPPING_DELETE_BY_ID)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> deleteDraftOrderById(@PathVariable String id) {
+    public String deleteDraftOrderById(@PathVariable String id) {
         return draftOrderApi.deleteDraftOrderById(id);
     }
 
     @PutMapping(CommonConstants.PUT_MAPPING_UPDATE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> updateDraftOrder(@RequestBody DraftOrderDto draftOrderDto) {
+    public String updateDraftOrder(@RequestBody DraftOrderDto draftOrderDto) {
         DraftOrder draftOrder = new DraftOrder();
 
         draftOrder.setId(draftOrderDto.getId());

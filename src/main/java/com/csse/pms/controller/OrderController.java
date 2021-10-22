@@ -6,7 +6,6 @@ import com.csse.pms.dto.OrderDto;
 import com.csse.pms.util.CommonConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,7 +30,7 @@ public class OrderController {
 
     @PostMapping(CommonConstants.POST_MAPPING_PURCHASE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> purchaseOrder(@RequestBody OrderDto orderDto) {
+    public Order purchaseOrder(@RequestBody OrderDto orderDto) {
         Order purchase = new Order();
 
         purchase.setReferenceNo(orderDto.getReferenceNo());
@@ -81,13 +80,13 @@ public class OrderController {
 
     @DeleteMapping(CommonConstants.DELETE_MAPPING_DELETE_BY_ID)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> deleteOrderById(@PathVariable String id) {
+    public String deleteOrderById(@PathVariable String id) {
         return orderApi.deleteOrderById(id);
     }
 
     @PutMapping(CommonConstants.PUT_MAPPING_ARCHIVE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> archiveOrder(@RequestBody OrderDto orderDto) {
+    public String archiveOrder(@RequestBody OrderDto orderDto) {
         Order order = new Order();
         order.setId(orderDto.getId());
         order.setStatus(orderDto.getStatus());
@@ -97,7 +96,7 @@ public class OrderController {
 
     @PutMapping(CommonConstants.PUT_MAPPING_UPDATE_STATUS)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> updateOrderStatus(@RequestBody OrderDto orderDto) {
+    public String updateOrderStatus(@RequestBody OrderDto orderDto) {
         Order order = new Order();
         order.setId(orderDto.getId());
         order.setStatus(orderDto.getStatus());
@@ -107,7 +106,7 @@ public class OrderController {
 
     @PutMapping(CommonConstants.PUT_MAPPING_UPDATE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> updateOrder(@RequestBody OrderDto orderDto) {
+    public String updateOrder(@RequestBody OrderDto orderDto) {
         Order order = new Order();
         order.setId(orderDto.getId());
         order.setSupplierId(orderDto.getSupplierId());
